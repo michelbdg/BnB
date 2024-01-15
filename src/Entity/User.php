@@ -56,9 +56,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'host', targetEntity: Room::class, orphanRemoval: true)]
     private Collection $rooms;
 
+    #[ORM\OneToMany(mappedBy: 'traveler', targetEntity: Rewiew::class, orphanRemoval: true)]
+    private Collection $rewiews;
+
+    #[ORM\OneToMany(mappedBy: 'traveler', targetEntity: Booking::class)]
+    private Collection $bookings;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
+        $this->rewiews = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,6 +259,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($room->getHost() === $this) {
                 $room->setHost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Rewiew>
+     */
+    public function getRewiews(): Collection
+    {
+        return $this->rewiews;
+    }
+
+    public function addRewiew(Rewiew $rewiew): static
+    {
+        if (!$this->rewiews->contains($rewiew)) {
+            $this->rewiews->add($rewiew);
+            $rewiew->setTraveler($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRewiew(Rewiew $rewiew): static
+    {
+        if ($this->rewiews->removeElement($rewiew)) {
+            // set the owning side to null (unless already changed)
+            if ($rewiew->getTraveler() === $this) {
+                $rewiew->setTraveler(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setTraveler($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getTraveler() === $this) {
+                $booking->setTraveler(null);
             }
         }
 
