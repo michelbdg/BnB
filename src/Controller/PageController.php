@@ -15,4 +15,14 @@ class PageController extends AbstractController
             
         ]);
     }
+
+    // Test route for designing the confirmation email
+    #[Route('/email', name: 'email')]
+    public function email(): Response
+    {
+        return $this->render('registration/confirmation_email.html.twig', [
+            'signedUrl'=>'https://example.com/signed-url',
+            'expiresAtMessageKey'=>'The URL will expire at %expireAt%'
+        ]);
+    }
 }
