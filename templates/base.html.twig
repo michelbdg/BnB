@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Location de voyage{% endblock %} | BnB</title>
         <link rel="icon" href="">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
         {% block stylesheets %}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         {% endblock %}
@@ -19,6 +19,29 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class=" d-flex justify-content-between align-items-center p-3 bg-dark">
+            <a href={{ path('paris') }}>
+                <img src={{ asset('/images/icon.svg') }}  alt="logo BnB" width="60">
+            </a>
+            <div class="flex gap-3 align-items-center">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <a href="#" class="text-white text-decoration-none">My account</a>
+                <a href={{ path('app_logout') }} class="text-white text-decoration-none">Logout</a>
+            {% else %}
+                <a href={{ path('app_register') }} class="text-white text-decoration-none">Sign up</a>
+                <a href={{ path('app_login') }} class="btn btn-light rounded-pill">Login</a>
+            {% endif %}
+            </div>
+        </header>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+        <footer class="d-flex gap-3 justify-content-center">
+            <a href={{ path('paris') }} class="text-white text-decoration-none">Paris</a>
+            <a href={{ path('lasvegas') }} class="text-white text-decoration-none">Las Vegas</a>
+            <a href={{ path('kyoto') }} class="text-white text-decoration-none">Kyoto</a>
+            <a href={{ path('sydney') }} class="text-white text-decoration-none">Sydney</a>
+            <a href={{ path('hongkong') }} class="text-white text-decoration-none">Hong Kong</a>
+        </footer>
     </body>
 </html>
