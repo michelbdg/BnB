@@ -65,3 +65,9 @@ body{
 .subtitle-reverse{
     transform: inherit;
 }
+
+/* footer */
+footer{
+    position: fixed;
+    bottom: 2rem;
+}

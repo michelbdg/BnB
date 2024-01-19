@@ -72,11 +72,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\ManyToMany(targetEntity: Room::class)]
+    private Collection $Favorites;
+
     public function __construct()
     {
         $this->rooms = new ArrayCollection();
         $this->rewiews = new ArrayCollection();
         $this->bookings = new ArrayCollection();
+        $this->Favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -343,6 +347,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Room>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->Favorites;
+    }
+
+    public function addFavorite(Room $favorite): static
+    {
+        if (!$this->Favorites->contains($favorite)) {
+            $this->Favorites->add($favorite);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Room $favorite): static
+    {
+        $this->Favorites->removeElement($favorite);
 
         return $this;
     }
