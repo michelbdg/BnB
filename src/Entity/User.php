@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Entity\Room;
 use App\Entity\Rewiew;
 use App\Entity\Booking;
+use App\Entity\Favorite;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\Collection;
 
+use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Nullable;
 use Doctrine\Common\Collections\ArrayCollection;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -177,6 +179,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->lastname = $lastname;
 
         return $this;
+    }
+
+    // Fusion : fistname + lastname
+    public function getFullname(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    // Current year minus bithday to get age 
+    public function getAge(): ?int
+    {
+        return date('Y') - $this->birthyear;
     }
 
     public function getBirthyear(): ?int

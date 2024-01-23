@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\FavoriteType;
+use App\Repository\FavoriteRepository;
 use App\Repository\RoomRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +27,8 @@ class RoomController extends AbstractController
             $request->query->getInt('page', 1),
             12 // Items per page 
         );
+
+        
 
         return $this->render('room/index.html.twig', [
             'rooms' => $pagination,

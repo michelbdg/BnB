@@ -65,4 +65,15 @@ class PageController extends AbstractController
             'expiresAtMessageKey'=>'The URL will expire at %expireAt%'
         ]);
     }
+    /**
+     * User account route for displaying it's own data on the app
+     */
+    #[Route('/account', name: 'account', methods: ['GET', 'POST'])]
+    public function account(): Response
+    {
+        return $this->render('page/account.html.twig', [
+        
+        ]);
+    }
+
 }
