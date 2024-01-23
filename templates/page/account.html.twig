@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My profile
+{% endblock %}
+
+{% block body %}
+	<div class="bg-dark vh-100 p-5">
+		<div class="container">
+			<div class="d-flex bnb-height overflow-hidden">
+				<div class="col-md-4 bg-white rounded m-2 shadow-sm text-center p-3">
+					<!-- User card -->
+					{# Button for edit (modal) #}<h3>
+					{{ app.user.fullname}}
+					</h3><p>
+					{{ app.user.email}}
+					</p>
+						<p>{{ app.user.age}}
+					yo
+					</p>
+				<img src={{ app.user.image }} alt="{{ app.user.fullname}}" class="img-fluid rounded-pill w-50"> </div>
+
+				<div class="col-md-8 bg-white rounded m-2 bnb-height overflow-scroll">
+					{% if app.user.rooms %}
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">Title</th>
+									<th scope="col">Price</th>
+									<th scope="col">Link</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in app.user.rooms %}
+									<tr>
+										<td>{{ item.title }}</td>
+										<td>{{ item.price }}€</td>
+										<td>
+											<a href="#">See the room</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% endif %}
+				</div>
+				<!-- Host rooms card -->
+				<div
+					class="col-md-4 bg-white"><!-- Booked rooms card -->
+
+				</div>
+				<div class="col-md-8 bg-white"></div>
+				<!-- Gamification card -->
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
