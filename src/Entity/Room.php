@@ -7,6 +7,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+#[Assert\NotBlank(
+    message: 'You should enter a title.'
+)]
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -15,6 +19,38 @@ class Room
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+
+
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'The address must be at least {{ limit }} characters long',
+        maxMessage: 'The address cannot be longer than {{ limit }} characters',
+    )]
+
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'The city must be at least {{ limit }} characters long',
+        maxMessage: 'The city cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'The country must be at least {{ limit }} characters long',
+        maxMessage: 'The country cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Positive(
+        message: 'The price cannot be negative or free.'
+    )]
+    #[Assert\NotBlank(
+        message: 'You should enter a price.'
+    )]
+
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
