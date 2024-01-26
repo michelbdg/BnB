@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
+use Asset\Email;
 use App\Entity\Room;
 use App\Entity\Rewiew;
 use App\Entity\Booking;
 use App\Entity\Favorite;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-
+use PhpParser\Node\Expr\Cast\String_;
 use Doctrine\Common\Collections\Collection;
 use phpDocumentor\Reflection\Types\Nullable;
 use Doctrine\Common\Collections\ArrayCollection;
-use PhpParser\Node\Expr\Cast\String_;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -27,7 +28,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Email(
+        message: 'The email "{{ value }}" is not a valid email. try again.',
+    )]
     private ?string $email = null;
+
+    #[Assert\Regex(
+        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
+        message: 'Your password must contain : at least 1 uppercase letter, 1 lowercase letter, 1 number, at least 1 special character, at least 8 characters'
+    )]
+
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your firstname must be at least {{ limit }} characters long',
+        maxMessage: 'Your firstname cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your lastname must be at least {{ limit }} characters long',
+        maxMessage: 'Your lastname cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Range(
+        min: 1940,
+        max: 2007,
+        notInRangeMessage: 'Your birthyear must be between {{ min }} and {{ max }}',
+    )]
+
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Your address must be at least {{ limit }} characters long',
+        maxMessage: 'Your address cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your city must be at least {{ limit }} characters long',
+        maxMessage: 'Your city cannot be longer than {{ limit }} characters',
+    )]
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your country must be at least {{ limit }} characters long',
+        maxMessage: 'Your country cannot be longer than {{ limit }} characters',
+    )]
 
     #[ORM\Column]
     private array $roles = [];
@@ -43,6 +94,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $lastname = null;
+
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Your job must be at least {{ limit }} characters long',
+        maxMessage: 'Your job cannot be longer than {{ limit }} characters',
+    )]
 
     #[ORM\Column(nullable: true)]
     private ?int $birthyear = null;
